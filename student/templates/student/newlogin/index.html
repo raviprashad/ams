@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3.11.0/dist/email.min.js"></script>
+    <script>
+        emailjs.init('YOUR_USER_ID'); // Replace with your EmailJS User ID
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <form id="registrationForm">
+            <h1>Register Now</h1>
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="role">Role</label>
+                <select id="role" required>
+                    <option value="student" selected>Student</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="enrollment">Enrollment Number</label>
+                <input type="text" id="enrollment" placeholder="Enter your enrollment number" required>
+            </div>
+            <div class="form-group otp-section hidden" id="otpSection">
+                <label for="otp">Enter OTP</label>
+                <input type="text" id="otp" placeholder="Enter the OTP sent to your email">
+                <button type="button" id="verifyOTPBtn">Verify OTP</button>
+            </div>
+            <button type="button" id="sendOTPBtn">Send OTP</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
