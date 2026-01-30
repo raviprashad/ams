@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Semester</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 30px 15px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 28px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    form p {
+      margin-bottom: 16px;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: inline-block;
+    }
+    input[type="text"], select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e0;
+      border-radius: 6px;
+      font-size: 1rem;
+      background-color: #ffffff;
+    }
+    button {
+      background-color: #764ba2;
+      color: #ffffff;
+      border: none;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #5a3c88;
+    }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 16px;
+      text-decoration: none;
+      color: #764ba2;
+      font-weight: 600;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Edit Semester</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Save Changes</button>
+    </form>
+    <a href="{% url 'view_semesters' %}" class="back-link">Back to Semesters</a>
+  </div>
+</body>
+</html>
+

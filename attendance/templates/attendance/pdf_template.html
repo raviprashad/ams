@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: sans-serif; font-size: 12px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+        th, td { border: 1px solid black; padding: 5px; text-align: center; }
+        h2 { text-align: center; }
+    </style>
+</head>
+<body>
+    <h2>Attendance Report</h2>
+    <p><strong>Subject:</strong> {{ subject.name }}</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Present</th>
+                <th>Total</th>
+                <th>Percentage</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in attendance_data %}
+                <tr>
+                    <td>{{ record.student.get_full_name }}</td>
+                    <td>{{ record.present }}</td>
+                    <td>{{ record.total }}</td>
+                    <td>{{ record.percentage }}%</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

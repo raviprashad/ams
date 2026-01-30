@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Add Semester</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px 16px;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #b0b9f2, #c1bbf7);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background: #fff;
+      padding: 20px 18px;
+      border-radius: 10px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      letter-spacing: 0.02em;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    label {
+      font-weight: 600;
+      color: #333;
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+      display: block;
+      letter-spacing: 0.02em;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      padding: 7px 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      color: #222;
+      transition: border-color 0.3s ease;
+      letter-spacing: 0.02em;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #764ba2;
+      background-color: #f7f5ff;
+    }
+
+    button[type="submit"] {
+      background-color: #764ba2;
+      color: white;
+      padding: 7px 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      width: fit-content;
+      transition: background-color 0.3s ease;
+      margin-top: 12px;
+      letter-spacing: 0.04em;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #5a3c88;
+    }
+
+    a {
+      color: #764ba2;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.8rem;
+      margin-top: 16px;
+      display: inline-block;
+      letter-spacing: 0.02em;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    p {
+      margin-bottom: 6px;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 16px 14px;
+      }
+
+      h2 {
+        font-size: 1rem;
+      }
+
+      button[type="submit"] {
+        font-size: 0.8rem;
+        padding: 6px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Add Semester</h2>
+
+    <form method="post">
+      {% csrf_token %}
+
+      {% for field in form %}
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}
+          <div style="color: red; font-size: 0.75rem; margin-bottom: 6px;">
+            {{ field.errors }}
+          </div>
+        {% endif %}
+      {% endfor %}
+
+      <button type="submit">Add Semester</button>
+    </form>
+
+    <a href="{% url 'view_semesters' %}">View Semesters</a>
+  </div>
+</body>
+</html>
+

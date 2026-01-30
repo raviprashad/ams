@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Student</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px 10px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 14px;
+      background: linear-gradient(-45deg, #667eea, #764ba2, #ff758c);
+      background-size: 400% 400%;
+      animation: gradientMove 20s ease infinite;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 25px;
+      max-width: 520px;
+      margin: 30px auto;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 18px;
+      color: #333;
+      text-align: center;
+    }
+
+    .section {
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: #fdfdfd;
+    }
+
+    .section h3 {
+      margin-top: 0;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 14px;
+      color: #2c3e50;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 6px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    button {
+      background-color: #6c63ff;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #5848d6;
+    }
+
+    .btn-secondary {
+      display: block;
+      background-color: #6c757d;
+      text-align: center;
+      text-decoration: none;
+      color: white;
+      padding: 8px;
+      border-radius: 6px;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .btn-secondary:hover {
+      background-color: #565e64;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Edit Student - {{ form.first_name.value }} {{ form.last_name.value }}</h2>
+
+    <div class="section">
+      <h3>Update Details</h3>
+
+      <form method="post">
+        {% csrf_token %}
+        <p>{{ form.username.label_tag }} {{ form.username }}</p>
+        <p>{{ form.email.label_tag }} {{ form.email }}</p>
+        <p>{{ form.first_name.label_tag }} {{ form.first_name }}</p>
+        <p>{{ form.last_name.label_tag }} {{ form.last_name }}</p>
+        <p>{{ form.enrollment_number.label_tag }} {{ form.enrollment_number }}</p>
+        <p>{{ form.course.label_tag }} {{ form.course }}</p>
+        <p>{{ form.session.label_tag }} {{ form.session }}</p>
+        <p>{{ form.semester.label_tag }} {{ form.semester }}</p>
+        <button type="submit">Save Changes</button>
+      </form>
+    </div>
+
+    <a href="{% url 'manage_students' %}" class="btn-secondary">← Back to Student List</a>
+  </div>
+</body>
+</html>

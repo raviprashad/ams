@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Leave Applications</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 16px;
+      padding: 36px;
+      box-shadow: 0 16px 40px rgba(102, 126, 234, 0.25);
+    }
+
+    h3 {
+      text-align: center;
+      font-size: 2rem;
+      color: #3b3b3b;
+      margin-bottom: 28px;
+    }
+
+    .leave-card {
+      background: #f9f9ff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+      padding: 16px 16px;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      border: 1px solid #e6e6ff;
+    }
+
+    .leave-card h5 {
+      color: #4a4aff;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      padding: 4px 10px;
+      border-radius: 50px;
+      font-weight: 500;
+    }
+
+    .list-group-item {
+      font-size: 0.85rem;
+      border: none;
+      background-color: #f5f7ff;
+      margin-bottom: 6px;
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+
+    .btn-outline-primary.btn-sm {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+    }
+
+    .btn-secondary {
+      font-size: 0.85rem;
+    }
+
+    footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #eee;
+    }
+
+    nav.logout-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .leave-card {
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Right Logout -->
+  <nav class="logout-bar">
+    {% if request.user.is_authenticated %}
+      <form method="post" action="{% url 'logout' %}" class="d-inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-outline-light btn-sm bg-primary">Logout</button>
+      </form>
+    {% endif %}
+  </nav>
+
+  <main>
+    <div class="container">
+      <h3>My Leave Applications</h3>
+
+      {% if leave_requests %}
+        {% for leave in leave_requests %}
+          <div class="leave-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="mb-0">{{ leave.start_date }} → {{ leave.end_date }}</h5>
+              <span class="badge 
+                {% if leave.status == 'approved' %}bg-success
+                {% elif leave.status == 'rejected' %}bg-danger
+                {% else %}bg-secondary
+                {% endif %}">
+                {{ leave.get_status_display }}
+              </span>
+            </div>
+
+            <p class="mb-1"><strong>Reason:</strong> {{ leave.reason }}</p>
+
+            {% if leave.certificate %}
+              <p><strong>Certificate:</strong>
+                <a href="{{ leave.certificate.url }}" target="_blank" class="btn btn-sm btn-outline-primary ms-2">View</a>
+              </p>
+            {% endif %}
+
+            <p class="mb-1"><strong>Teacher Responses:</strong></p>
+            <ul class="list-group">
+              {% for approval in leave.approvals.all %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  {{ approval.teacher.get_full_name|default:approval.teacher.username }}
+                  <span class="badge
+                    {% if approval.status == 'approved' %}bg-success
+                    {% elif approval.status == 'rejected' %}bg-danger
+                    {% else %}bg-secondary
+                    {% endif %}">
+                    {{ approval.get_status_display }}
+                  </span>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="text-muted text-center">You haven't submitted any leave applications yet.</p>
+      {% endif %}
+
+      <div class="text-center">
+        <a href="{% url 'student_dashboard' %}" class="btn btn-secondary mt-3">← Back to Dashboard</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="py-3">
+    <small>&copy; {{ now|date:"Y" }} ATMS</small>
+  </footer>
+</body>
+</html>

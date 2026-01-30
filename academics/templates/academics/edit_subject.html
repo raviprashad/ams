@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Subject</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px 10px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 14px;
+      background: linear-gradient(-45deg, #667eea, #764ba2, #ff758c);
+      background-size: 400% 400%;
+      animation: gradientMove 30s ease infinite;
+      color: #333;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 25px 30px;
+      max-width: 600px;
+      margin: 30px auto;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 8px; 
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 2px; 
+      font-size: 14px;
+      color: #444;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px 12px;
+      font-size: 14px;
+      border: 1.8px solid #ccc;
+      border-radius: 8px;
+      transition: border-color 0.3s ease;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="number"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #764ba2;
+      box-shadow: 0 0 8px rgba(118, 75, 162, 0.4);
+    }
+
+    button[type="submit"] {
+      padding: 10px 18px;
+      background-color: #764ba2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      max-width: 160px;
+      align-self: center;
+      box-shadow: 0 3px 6px rgba(118, 75, 162, 0.4);
+    }
+
+    button[type="submit"]:hover {
+      background-color: #5a3a7d;
+    }
+
+    a.back-link {
+      display: inline-block;
+      margin-top: 25px;
+      text-align: center;
+      font-size: 14px;
+      color: #6c757d;
+      text-decoration: none;
+      border: 1px solid #6c757d;
+      padding: 8px 14px;
+      border-radius: 8px;
+      max-width: 180px;
+      margin-left: auto;
+      margin-right: auto;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(108, 117, 125, 0.3);
+    }
+
+    a.back-link:hover {
+      background-color: #6c757d;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Edit Subject</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Update Subject</button>
+    </form>
+    <a href="{% url 'view_subjects' %}" class="back-link">Back to Subjects</a>
+  </div>
+</body>
+</html>
+

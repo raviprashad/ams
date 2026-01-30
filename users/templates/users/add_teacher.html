@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Faculty Profile</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px 10px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 14px;
+      background: linear-gradient(-45deg, #667eea, #764ba2, #ff758c);
+      background-size: 400% 400%;
+      animation: gradientMove 20s ease infinite;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 25px;
+      max-width: 480px;
+      margin: 30px auto;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 18px;
+      color: #333;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    button {
+      background-color: #6c63ff;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #5848d6;
+    }
+
+    .btn-secondary,
+    .btn-outline-info {
+      display: block;
+      background-color: #6c757d;
+      text-align: center;
+      text-decoration: none;
+      color: white;
+      padding: 8px;
+      border-radius: 6px;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .btn-outline-info {
+      background-color: transparent;
+      border: 2px solid #6c63ff;
+      color: #6c63ff;
+      margin-left: 0;
+    }
+
+    .btn-outline-info:hover {
+      background-color: #6c63ff;
+      color: #fff;
+    }
+
+    .btn-secondary:hover {
+      background-color: #565e64;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Add Teacher</h2>
+
+    <form method="post">
+      {% csrf_token %}
+      <div>
+        <label for="id_first_name">First name:</label>
+        {{ form.first_name }}
+      </div>
+      <div>
+        <label for="id_last_name">Last name:</label>
+        {{ form.last_name }}
+      </div>
+      <div>
+        <label for="id_email">Email address:</label>
+        {{ form.email }}
+      </div>
+
+      <button type="submit">Add Teacher</button>
+    </form>
+
+    <a href="{% url 'view_teachers' %}" class="btn-outline-info">View All Faculty Profiles</a>
+    <a href="{% url 'dean_dashboard' %}" class="btn-secondary">← Back to Dean Dashboard</a>
+  </div>
+</body>
+</html>

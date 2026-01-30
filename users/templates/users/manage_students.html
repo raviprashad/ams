@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manage Students</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px 10px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 14px;
+      background: linear-gradient(-45deg, #667eea, #764ba2, #ff758c);
+      background-size: 400% 400%;
+      animation: gradientMove 20s ease infinite;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 25px;
+      max-width: 900px;
+      margin: 30px auto;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 18px;
+      color: #333;
+      text-align: center;
+    }
+
+    form.filter-form {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    form.filter-form > div {
+      flex: 1 1 30%;
+      min-width: 150px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 6px;
+      color: #2c3e50;
+    }
+
+    select, input[type="file"] {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .btn {
+      padding: 10px 15px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      border: none;
+      font-size: 14px;
+      text-align: center;
+      display: inline-block;
+      user-select: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-primary { background-color: #6c63ff; color: #fff; }
+    .btn-primary:hover { background-color: #5848d6; }
+
+    .btn-success { background-color: #28a745; color: white; }
+    .btn-success:hover { background-color: #218838; }
+
+    .btn-secondary { background-color: #6c757d; color: white; }
+    .btn-secondary:hover { background-color: #565e64; }
+
+    .btn-warning { background-color: #ffc107; color: #212529; }
+    .btn-warning:hover { background-color: #e0a800; }
+
+    .btn-danger { background-color: #dc3545; color: white; }
+    .btn-danger:hover { background-color: #bd2130; }
+
+    .d-flex { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .justify-between { justify-content: space-between; }
+    .mb-3 { margin-bottom: 1rem; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th { background-color: #f4f4f4; font-weight: 600; user-select: none; }
+    tbody tr:hover { background-color: #f9f9f9; }
+    input[type="checkbox"] { cursor: pointer; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>Manage Students</h2>
+  <p style="text-align:center; font-weight:bold; color:#0f0000; background-color:white; padding:10px; border-radius:5px;">
+    Please apply Course, Session, and Semester filters to enable promotion.
+  </p>
+
+  <!-- Filter Form -->
+  <form method="GET" class="filter-form">
+    <div>
+      <label for="courseSelect">Course</label>
+      <select id="courseSelect" name="course" required>
+        <option value="">Select Course</option>
+        {% for course in courses %}
+          <option value="{{ course.id }}" {% if course.id|stringformat:"s" == selected_course %}selected{% endif %}>{{ course.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label for="sessionSelect">Session</label>
+      <select id="sessionSelect" name="session" required>
+        <option value="">Select Session</option>
+        {% if sessions %}
+          {% for session in sessions %}
+            <option value="{{ session.id }}" {% if session.id|stringformat:"s" == selected_session %}selected{% endif %}>
+              {{ session.name }}
+            </option>
+          {% endfor %}
+        {% endif %}
+      </select>
+    </div>
+
+    <div>
+      <label for="semesterSelect">Semester</label>
+      <select id="semesterSelect" name="semester" required>
+        <option value="">Select Semester</option>
+        {% if semesters %}
+          {% for semester in semesters %}
+            <option value="{{ semester.id }}" {% if semester.id|stringformat:"s" == selected_semester %}selected{% endif %}>
+              {{ semester.name }}
+            </option>
+          {% endfor %}
+        {% endif %}
+      </select>
+    </div>
+
+    <div style="align-self:flex-end; flex: 0 0 120px;">
+      <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+  </form>
+
+  <div class="d-flex justify-between mb-3">
+    <a href="{% url 'add_student' %}" class="btn btn-success">+ Add Student</a>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'bulk_add_students' %}" class="d-flex" style="margin:0;">
+      {% csrf_token %}
+      <input type="hidden" name="course" value="{{ selected_course }}">
+      <input type="hidden" name="session" value="{{ selected_session }}">
+      <input type="hidden" name="semester" value="{{ selected_semester }}">
+      <input type="file" name="excel_file" accept=".xlsx" required>
+      <button type="submit" class="btn btn-secondary">Upload Excel</button>
+    </form>
+  </div>
+
+  <form method="POST" action="{% url 'promote_students' %}">
+    {% csrf_token %}
+    <input type="hidden" name="course_id" value="{{ selected_course }}">
+    <input type="hidden" name="session_id" value="{{ selected_session }}">
+    <input type="hidden" name="semester_id" value="{{ selected_semester }}">
+
+    <table>
+      <thead>
+        <tr>
+          <th><input type="checkbox" id="select_all"></th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Enrollment Number</th>
+          <th>Course</th>
+          <th>Session</th>
+          <th>Semester</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in students %}
+        <tr>
+          <td><input type="checkbox" name="selected_students[]" value="{{ student.id }}"></td>
+          <td>{{ student.user.username }}</td>
+          <td>{{ student.user.email }}</td>
+          <td>{{ student.enrollment_number }}</td>
+          <td>{{ student.course.name }}</td>
+          <td>{{ student.session.name }}</td>
+          <td>{{ student.semester.name }}</td>
+          <td>
+            <a href="{% url 'edit_student' student.id %}" class="btn btn-primary btn-sm" style="padding:3px 7px;">Edit</a>
+            <a href="{% url 'delete_student' student.id %}" class="btn btn-danger btn-sm" style="padding:3px 7px;" onclick="return confirm('Are you sure?');">Delete</a>
+            {% if student.is_active %}
+              <a href="{% url 'toggle_student_status' student.id %}" class="btn btn-warning btn-sm" style="padding:3px 7px;">Disable</a>
+            {% else %}
+              <a href="{% url 'toggle_student_status' student.id %}" class="btn btn-success btn-sm" style="padding:3px 7px;">Enable</a>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="8" style="text-align:center;">No students found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <button type="submit" class="btn btn-warning" style="width: 100%;">Promote Selected Students</button>
+  </form>
+</div>
+
+<!-- ✅ Dependent Dropdown Script -->
+<script>
+  const courseSelect = document.getElementById('courseSelect');
+  const sessionSelect = document.getElementById('sessionSelect');
+  const semesterSelect = document.getElementById('semesterSelect');
+
+  courseSelect.addEventListener('change', function () {
+    const courseId = this.value;
+    fetch(`/users/ajax/load-sessions/?course_id=${courseId}`)
+      .then(res => res.json())
+      .then(data => {
+        sessionSelect.innerHTML = '<option value="">Select Session</option>';
+        semesterSelect.innerHTML = '<option value="">Select Semester</option>';
+        data.sessions.forEach(session => {
+          const option = document.createElement('option');
+          option.value = session.id;
+          option.textContent = session.name;
+          sessionSelect.appendChild(option);
+        });
+      });
+  });
+
+  sessionSelect.addEventListener('change', function () {
+    const courseId = courseSelect.value;
+    const sessionId = this.value;
+    fetch(`/users/ajax/load-semesters/?course_id=${courseId}&session_id=${sessionId}`)
+      .then(res => res.json())
+      .then(data => {
+        semesterSelect.innerHTML = '<option value="">Select Semester</option>';
+        data.semesters.forEach(sem => {
+          const option = document.createElement('option');
+          option.value = sem.id;
+          option.textContent = sem.name;
+          semesterSelect.appendChild(option);
+        });
+      });
+  });
+
+  document.getElementById('select_all').addEventListener('click', function () {
+    const checkboxes = document.querySelectorAll('input[name="selected_students[]"]');
+    checkboxes.forEach(cb => cb.checked = this.checked);
+  });
+
+  document.querySelector('form[action="{% url "promote_students" %}"]').addEventListener('submit', function(e) {
+    if (!confirm('Are you sure you want to promote the selected students?')) {
+      e.preventDefault();
+    }
+  });
+</script>
+</body>
+</html>

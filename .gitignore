@@ -1,0 +1,24 @@
+# Ignore database
+db.sqlite3
+*.sqlite3
+
+# Ignore virtual environments
+venv/
+env/
+ENV/
+ATMSenv/
+
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+
+# Django specific
+*.log
+local_settings.py
+
+# VSCode settings
+.vscode/
+
+# OS-specific files
+.DS_Store
+Thumbs.db

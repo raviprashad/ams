@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assign Substitute</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <div class="max-w-xl mx-auto mt-10 bg-white p-6 rounded-lg shadow">
+        <h2 class="text-2xl font-bold mb-4">Assign Substitute</h2>
+
+        <p class="mb-4 text-gray-700">
+            Assign a substitute teacher for:<br>
+            <strong>Original Subject:</strong> {{ lecture.subject.name }}<br>
+            <strong>Date:</strong> {{ lecture.date }}<br>
+            <strong>Lecture #:</strong> {{ lecture.lecture_number }}
+        </p>
+
+        {% if form %}
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+
+            <div>
+                <label for="id_substitute_teacher" class="block font-medium mb-1">Choose a teacher:</label>
+                {{ form.substitute_teacher }}
+                {% if form.substitute_teacher.errors %}
+                    <p class="text-red-600 text-sm">{{ form.substitute_teacher.errors }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="id_substitute_subject" class="block font-medium mb-1">Choose subject they will teach:</label>
+                {{ form.substitute_subject }}
+                {% if form.substitute_subject.errors %}
+                    <p class="text-red-600 text-sm">{{ form.substitute_subject.errors }}</p>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Assign Substitute
+            </button>
+        </form>
+        {% else %}
+            <p class="text-red-600 font-medium mb-4">No available teachers to assign as substitute.</p>
+        {% endif %}
+
+        <div class="mt-6">
+            <a href="{% url 'teacher_dashboard' %}" class="text-blue-600 hover:underline">
+                ← Back to My Lectures
+            </a>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const teacherSelect = document.getElementById('id_substitute_teacher');
+            const subjectSelect = document.getElementById('id_substitute_subject');
+        
+            teacherSelect.addEventListener('change', function () {
+                const teacherId = this.value;
+                fetch(`/timetable/get-subjects/?teacher_id=${teacherId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        subjectSelect.innerHTML = '';
+                        if (data.length === 0) {
+                            const option = document.createElement('option');
+                            option.text = 'No subjects available';
+                            subjectSelect.add(option);
+                        } else {
+                            data.forEach(subject => {
+                                const option = document.createElement('option');
+                                option.value = subject.id;
+                                option.text = subject.name;
+                                subjectSelect.add(option);
+                            });
+                        }
+                    });
+            });
+        });
+        </script>
+        
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Revert Substitute</title></head>
+<body>
+  <h2>Revert Substitution?</h2>
+  <p>
+    Are you sure you want to take back Lecture {{ lecture.lecture_number }}
+    on {{ lecture.date }} originally assigned to
+    {{ lecture.substitute_teacher.user.get_full_name }}?
+  </p>
+  <form method="post">{% csrf_token %}
+    <button type="submit">Yes, revert</button>
+    <a href="{% url 'teacher_dashboard' %}">Cancel</a>
+  </form>
+</body>
+</html>

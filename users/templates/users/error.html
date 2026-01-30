@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Error</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px 10px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 14px;
+      background: linear-gradient(-45deg, #667eea, #764ba2, #ff758c);
+      background-size: 400% 400%;
+      animation: gradientMove 20s ease infinite;
+    }
+
+    @keyframes gradientMove {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .container {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 25px;
+      max-width: 520px;
+      margin: 30px auto;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 16px;
+      color: #c82333;
+    }
+
+    p {
+      font-size: 15px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .btn-secondary {
+      display: inline-block;
+      background-color: #6c757d;
+      text-align: center;
+      text-decoration: none;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .btn-secondary:hover {
+      background-color: #565e64;
+    }
+
+    .alert-error {
+      background-color: #f8d7da;
+      color: #842029;
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 14px;
+      margin-bottom: 20px;
+      border: 1px solid #f5c2c7;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Error</h2>
+    <div class="alert-error">
+      <p>{{ message }}</p>
+    </div>
+    <a href="{% url 'login' %}" class="btn-secondary">Go to Login</a>
+  </div>
+</body>
+</html>
+

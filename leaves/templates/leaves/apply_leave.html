@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apply for Leave</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      border-radius: 16px;
+      padding: 36px;
+      box-shadow: 0 16px 40px rgba(102, 126, 234, 0.25);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    form p {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 6px;
+      color: #444;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="file"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background-color: #f9f9f9;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background: #5565e8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Apply for Leave</h1>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Submit Leave Request</button>
+    </form>
+  </div>
+
+
+  {% if success %}
+  <div id="popup" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;">
+    <div style="
+      background: white;
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      text-align: center;">
+      <h2 style="margin-bottom: 10px;">Success!</h2>
+      <p>Your leave request has been submitted.</p>
+      <button onclick="document.getElementById('popup').style.display='none'" style="
+        margin-top: 10px;
+        background-color: #667eea;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;">OK</button>
+    </div>
+  </div>
+  {% endif %}
+  
+</body>
+</html>

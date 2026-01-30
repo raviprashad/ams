@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>View Semesters</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 30px 15px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #2c3e50;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .container {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 24px 28px;
+      max-width: 850px;
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      color: #2c3e50;
+    }
+    h2 {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      text-align: left;
+      padding: 12px 15px;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #667eea;
+      color: #fff;
+      font-size: 0.95rem;
+    }
+    tr:nth-child(even) {
+      background-color: #f1f5f9;
+    }
+    tr:hover {
+      background-color: #e2e8f0;
+    }
+    a {
+      color: #764ba2;
+      text-decoration: none;
+      font-weight: 600;
+      transition: text-decoration 0.2s;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .add-link {
+      display: inline-block;
+      text-align: center;
+      margin-top: 10px;
+      padding: 10px 16px;
+      background-color: #764ba2;
+      color: #fff;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    .add-link:hover {
+      background-color: #5a3c88;
+    }
+    @media (max-width: 600px) {
+      th, td {
+        font-size: 0.85rem;
+        padding: 10px;
+      }
+      h2 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>All Semesters</h2>
+
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Course</th>
+        <th>Session</th>
+        <th>Actions</th>
+      </tr>
+      {% for semester in semesters %}
+        <tr>
+          <td>{{ semester.name }}</td>
+          <td>{{ semester.course.name }}</td>
+          <td>{{ semester.session.name }}</td>
+          <td>
+            <a href="{% url 'edit_semester' semester.id %}">Edit</a> |
+            <a href="{% url 'delete_semester' semester.id %}">Delete</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+
+    <a href="{% url 'add_semester' %}" class="add-link">Add Semester</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Messages</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px 10px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 14px;
+      background: linear-gradient(-45deg, #667eea, #764ba2, #ff758c);
+      background-size: 400% 400%;
+      animation: gradientMove 20s ease infinite;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 25px;
+      max-width: 600px;
+      margin: 30px auto;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 18px;
+      color: #333;
+      text-align: center;
+    }
+
+    .message-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .message-list li {
+      background-color: #f8f9fa;
+      padding: 12px 16px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      transition: background-color 0.2s;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+    }
+
+    .message-list li:hover {
+      background-color: #e2e6ea;
+    }
+
+    .message-list a {
+      text-decoration: none;
+      color: #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .message-list strong {
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .message-list small {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .btn-secondary {
+      display: block;
+      background-color: #6c757d;
+      text-align: center;
+      text-decoration: none;
+      color: white;
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 15px;
+      font-size: 13px;
+    }
+
+    .btn-secondary:hover {
+      background-color: #565e64;
+    }
+
+    .empty-message {
+      text-align: center;
+      font-style: italic;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Your Messages</h2>
+
+    {% if messages %}
+      <ul class="message-list">
+        {% for message in messages %}
+          <li>
+            <a href="{% url 'messages:message_detail' message.pk %}">
+              <strong>{{ message.title }}</strong>
+              <small>{{ message.created_at|date:"M d, Y H:i" }}</small>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="empty-message">No messages found.</p>
+    {% endif %}
+
+    <a href="{% url 'dean_dashboard' %}" class="btn-secondary">Back to Dashboard</a>
+  </div>
+</body>
+</html>
+

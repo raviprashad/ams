@@ -1,0 +1,160 @@
+{% load custom_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Timetable</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        th, td {
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+        .timetable-table {
+            table-layout: fixed;
+            width: 100%;
+        }
+        .clickable-cell:hover {
+            background-color: #f0f8ff;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-4">
+    <h2 class="mb-4">📅 View Timetable</h2>
+
+    <!-- Filter Form -->
+    <form method="get" class="mb-4" id="filter-form">
+        <div class="form-row">
+            <div class="col-md-3 mb-2">
+                <label>Course</label>
+                <select name="course" class="form-control" id="course-select" required>
+                    <option value="">Select Course</option>
+                    {% for course in courses %}
+                        <option value="{{ course.id }}" {% if course.id|stringformat:"s" == selected_course_id %}selected{% endif %}>{{ course.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3 mb-2">
+                <label>Session</label>
+                <select name="session" class="form-control" id="session-select" required>
+                    <option value="">Select Session</option>
+                    {% for session in sessions %}
+                        <option value="{{ session.id }}" {% if session.id|stringformat:"s" == selected_session_id %}selected{% endif %}>{{ session.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3 mb-2">
+                <label>Semester</label>
+                <select name="semester" class="form-control" id="semester-select" required>
+                    <option value="">Select Semester</option>
+                    {% for semester in semesters %}
+                        <option value="{{ semester.id }}" {% if semester.id|stringformat:"s" == selected_semester_id %}selected{% endif %}>{{ semester.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3 mb-2">
+                <label>Section (optional)</label>
+                <select name="section" class="form-control" id="section-select">
+                    <option value="">-- All Sections --</option>
+                    {% for section in sections %}
+                        <option value="{{ section.id }}" {% if section.id|stringformat:"s" == selected_section_id %}selected{% endif %}>{{ section.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-3 mb-2">
+                <label>Group (optional)</label>
+                <select name="group" class="form-control" id="group-select">
+                    <option value="">-- All Groups --</option>
+                    {% for group in groups %}
+                        <option value="{{ group.id }}" {% if group.id|stringformat:"s" == selected_group_id %}selected{% endif %}>{{ group.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-9 align-self-end mb-2">
+                <button type="submit" class="btn btn-primary mt-2">View</button>
+            </div>
+        </div>
+    </form>
+
+    {% if timetable %}
+        <h4 class="mt-4">📌 Weekly Timetable</h4>
+        <table class="table table-bordered timetable-table mt-3">
+            <thead class="thead-light">
+                <tr>
+                    <th>Day / Lecture</th>
+                    {% for num in lecture_numbers %}
+                        <th>Slot {{ num }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for day in days %}
+                <tr>
+                    <th>{{ day }}</th>
+                    {% for num in lecture_numbers %}
+                        {% with slot=timetable_dict|get_item:day|get_item:num %}
+                            {% if slot %}
+                                <td class="clickable-cell" onclick="location.href='{% url 'edit_lecture_slot' slot.id %}'">
+                                    {{ slot.subject.name }}<br>
+                                    <small>({{ slot.teacher.user.username }})</small><br>
+                                    {% if slot.start_time and slot.end_time %}
+                                        <small>{{ slot.start_time|time:"H:i" }} - {{ slot.end_time|time:"H:i" }}</small>
+                                    {% endif %}
+                                </td>
+                            {% else %}
+                                <td>-</td>
+                            {% endif %}
+                        {% endwith %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% elif selected_course_id and selected_session_id and selected_semester_id %}
+        <div class="alert alert-warning">No lectures scheduled for the selected filters.</div>
+    {% endif %}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#course-select').change(function () {
+            const courseId = $(this).val();
+
+            $('#session-select').html('<option value="">Loading sessions...</option>');
+            $('#semester-select').html('<option value="">Loading semesters...</option>');
+
+            $.ajax({
+                url: "{% url 'get_sessions' %}",
+                data: { course_id: courseId },
+                success: function (data) {
+                    let options = '<option value="">Select Session</option>';
+                    data.sessions.forEach(function (session) {
+                        options += `<option value="${session.id}">${session.name}</option>`;
+                    });
+                    $('#session-select').html(options);
+                }
+            });
+
+            $.ajax({
+                url: "{% url 'get_semesters' %}",
+                data: { course_id: courseId },
+                success: function (data) {
+                    let options = '<option value="">Select Semester</option>';
+                    data.semesters.forEach(function (semester) {
+                        options += `<option value="${semester.id}">${semester.name}</option>`;
+                    });
+                    $('#semester-select').html(options);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

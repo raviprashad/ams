@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Group</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #36d1dc, #5b86e5);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 40px 32px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 16px 40px rgba(54, 209, 220, 0.25);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      color: #333;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    input[type="text"],
+    select,
+    textarea {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      width: 100%;
+    }
+    button[type="submit"] {
+      padding: 12px;
+      background: #36d1dc;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button[type="submit"]:hover {
+      background: #2bb1b7;
+    }
+    .alert {
+      padding: 10px 16px;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+    .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    .alert-error, .alert-danger {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    .link {
+      margin-top: 24px;
+      text-align: center;
+    }
+    .link a {
+      color: #36d1dc;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .link a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 480px) {
+      .card {
+        padding: 30px 20px;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Add Group</h2>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Add Group</button>
+    </form>
+
+    <div class="link">
+      <p><a href="{% url 'view_groups' %}">← View Groups</a></p>
+    </div>
+  </div>
+</body>
+</html>

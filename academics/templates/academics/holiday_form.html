@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ action }} Holiday</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px 10px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 14px;
+      background: linear-gradient(-45deg, #667eea, #764ba2, #ff758c);
+      background-size: 400% 400%;
+      animation: gradientMove 20s ease infinite;
+    }
+
+    @keyframes gradientMove {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .container {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 25px;
+      max-width: 520px;
+      margin: 30px auto;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 18px;
+      color: #333;
+      text-align: center;
+    }
+
+    .section {
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: #fdfdfd;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 4px;
+      display: block;
+      color: #2c3e50;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      box-sizing: border-box;
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    button {
+      background-color: #6c63ff;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #5848d6;
+    }
+
+    .btn-secondary {
+      display: inline-block;
+      background-color: #6c757d;
+      text-align: center;
+      text-decoration: none;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 6px;
+      margin-top: 12px;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background-color: #565e64;
+    }
+
+    .alert {
+      padding: 10px 14px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    .alert-success {
+      background-color: #d1e7dd;
+      color: #0f5132;
+    }
+
+    .alert-error,
+    .alert-danger {
+      background-color: #f8d7da;
+      color: #842029;
+    }
+
+    .alert-warning {
+      background-color: #fff3cd;
+      color: #664d03;
+    }
+
+    .alert-info {
+      background-color: #cff4fc;
+      color: #055160;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>{{ action }} Holiday</h2>
+
+    <div class="section">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="POST">
+        {% csrf_token %}
+        
+
+        <div>
+          <label for="{{ form.date.id_for_label }}">Date</label>
+          {{ form.date }}
+        </div>
+
+        <div>
+          <label for="{{ form.reason.id_for_label }}">Reason</label>
+          {{ form.reason }}
+        </div>
+
+        <button type="submit">{{ action }}</button>
+      </form>
+    </div>
+
+    <a href="{% url 'holiday_list' %}" class="btn-secondary">Cancel</a>
+  </div>
+</body>
+</html>

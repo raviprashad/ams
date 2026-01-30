@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dean Dashboard - Attendance System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 30px;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 16px;
+      padding: 36px;
+      box-shadow: 0 16px 40px rgba(102, 126, 234, 0.25);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.4rem;
+      margin-bottom: 0.2rem;
+      color: #3b3b3b;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 36px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 24px;
+      width: 100%;
+    }
+
+    .card {
+      background: #f9f9ff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+      padding: 20px 16px;
+      text-align: center;
+      transition: transform 0.25s, box-shadow 0.25s, color 0.25s;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #444;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 120px;
+      border: 2px solid transparent;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 28px rgba(102, 126, 234, 0.35);
+      border-color: #667eea;
+      color: #4a4aff;
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: #667eea;
+    }
+
+    .card:hover .card-icon {
+      color: #4a4aff;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        font-size: 0.88rem;
+        padding: 16px;
+      }
+
+      .card-icon {
+        font-size: 1.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome, {{ user.username }} (Dean)</h1><br>
+
+
+    <div class="grid">
+      <a href="{% url 'add_course' %}" class="card"><div class="card-icon">📚</div>Add Course</a>
+      <a href="{% url 'view_courses' %}" class="card"><div class="card-icon">📖</div>View Courses</a>
+      <a href="{% url 'add_session' %}" class="card"><div class="card-icon">🕒</div>Add Session</a>
+      <a href="{% url 'view_sessions' %}" class="card"><div class="card-icon">📅</div>View Sessions</a>
+      <a href="{% url 'add_semester' %}" class="card"><div class="card-icon">🎓</div>Add Semester</a>
+      <a href="{% url 'view_semesters' %}" class="card"><div class="card-icon">📆</div>View Semesters</a>
+      <a href="{% url 'add_subject' %}" class="card"><div class="card-icon">📝</div>Add Subject</a>
+      <a href="{% url 'view_subjects' %}" class="card"><div class="card-icon">📋</div>View Subjects</a>
+      <a href="{% url 'manage_students' %}" class="card"><div class="card-icon">👩‍🎓</div>Manage Students</a>
+      <a href="{% url 'add_teacher' %}" class="card"><div class="card-icon">👨‍🏫</div>Add Faculty Profile</a>
+      <a href="{% url 'view_teachers' %}" class="card"><div class="card-icon">👩‍🏫</div>View Faculty Profiles</a>
+      <a href="{% url 'attendance:dean_view_attendance' %}" class="card"><div class="card-icon">📊</div>View Attendance Records</a>
+      <a href="{% url 'announce_message' %}" class="card"><div class="card-icon">📢</div>Announce Message</a>
+      <a href="{% url 'holiday_list' %}" class="card"><div class="card-icon">🏖️</div>Manage Holidays</a>
+      <a href="{% url 'view_attendance_history' %}" class="card">
+        <div class="card-icon">📂</div>Attendance History
+      </a>
+      <a href="{% url 'manage_timetable_home' %}" class="card">
+        <div class="card-icon">🗓️</div>
+        Manage Timetable
+      </a>
+    
+
+      <a href="{% url 'manage_student_leaves' %}" class="card">
+        <div class="card-icon">📝</div>
+        Manage Leaves
+      </a>
+          <!-- Sections -->
+    <a href="{% url 'add_section' %}" class="card">
+      <div class="card-icon">➕🏫</div>Add Section
+    </a>
+    <a href="{% url 'view_sections' %}" class="card">
+      <div class="card-icon">🏫</div>View Sections
+    </a>
+
+    <!-- Groups -->
+    <a href="{% url 'add_group' %}" class="card">
+      <div class="card-icon">➕👥</div>Add Group
+    </a>
+    <a href="{% url 'view_groups' %}" class="card">
+      <div class="card-icon">👥</div>View Groups
+    </a>
+
+    </div>
+  </div>
+</body>
+</html>
