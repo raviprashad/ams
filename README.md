@@ -47,3 +47,15 @@ This project is designed for educational purposes and demonstrates how a real-wo
 Open browser and go to:
 
                    http://127.0.0.1:8000/
+
+
+
+login page  
+
+
+<img width="1920" height="1016" alt="Screenshot at 2026-01-31 00-39-35" src="https://github.com/user-attachments/assets/971b600d-f8dd-48a1-a40a-e18d297fff59" />
+
+
+dean dashboard
+
+<img width="1920" height="1016" alt="Screenshot at 2026-01-30 23-40-04" src="https://github.com/user-attachments/assets/d2ac3b24-b63e-4dec-ba74-6c4d94408491" />
